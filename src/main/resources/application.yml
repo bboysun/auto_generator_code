@@ -1,3 +1,11 @@
 server:
   port: 8080
 
+# spring
+spring:
+  # db
+  datasource:
+    url: jdbc:mysql://localhost:3306/activiti?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&nullCatalogMeansCurrent=true
+    username: root
+    password: *
+    driver-class-name: com.mysql.jdbc.Driver

@@ -3,15 +3,18 @@ package com.darryl.snow.autogenerator;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -20,6 +23,12 @@ import java.util.*;
  * @Date: 2020/05/24
  */
 public class SnowAutoGenerator {
+
+	/**
+	 * 包名
+	 */
+	public static final String PACKAGE_NAME = "com.darryl.snow";
+
 	/**
 	 * 读取控制台内容
 	 */
@@ -53,7 +62,7 @@ public class SnowAutoGenerator {
 		//Author设置作者
 		globalConfig.setAuthor("darryl");
 		//是否覆盖文件
-		globalConfig.setFileOverride(true);
+		//globalConfig.setFileOverride(true);
 		//生成后打开文件
 		globalConfig.setOpen(false);
 		// XML 二级缓存
@@ -79,7 +88,7 @@ public class SnowAutoGenerator {
 				"&useSSL=false");
 		dataSourceConfig.setDriverName("com.mysql.jdbc.Driver");
 		dataSourceConfig.setUsername("root");
-		dataSourceConfig.setPassword("你自己的密码");
+		dataSourceConfig.setPassword("darryl1229");
 		mpg.setDataSource(dataSourceConfig);
 
 		/**
@@ -101,9 +110,7 @@ public class SnowAutoGenerator {
 			@Override
 			public void initMap() {
 				// to do nothing
-				Map<String, Object> map = new HashMap<>();
-				map.put("abc", this.getConfig().getGlobalConfig().getAuthor() + "-mp");
-				this.setMap(map);
+
 			}
 		};
 
@@ -114,7 +121,6 @@ public class SnowAutoGenerator {
 		String templatePath = "/templates/mapper.xml.ftl";
 		// 如果模板引擎是 velocity
 		// String templatePath = "/templates/mapper.xml.vm";
-
 
 		/**
 		 * 自定义输出配置
@@ -130,6 +136,25 @@ public class SnowAutoGenerator {
 			}
 		});
 		cfg.setFileOutConfigList(focList);
+
+		/**
+		 * 自定义生成文件是否要被覆盖
+		 */
+		cfg.setFileCreate((configBuilder, fileType, filePath) -> {
+			//如果是Entity则直接返回true表示写文件
+			if (fileType == FileType.ENTITY) {
+				return true;
+			}
+			//否则先判断文件是否存在
+			File file = new File(filePath);
+			boolean exist = file.exists();
+			if (!exist) {
+				file.getParentFile().mkdirs();
+			}
+			//文件不存在或者全局配置的fileOverride为true才写文件
+			return !exist || configBuilder.getGlobalConfig().isFileOverride();
+		});
+
 		mpg.setCfg(cfg);
 
 		/**
