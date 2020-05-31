@@ -10,7 +10,7 @@ import lombok.ToString;
 /**
  * user
  * @author darryl
- * @since 2020-05-30
+ * @since 2020-05-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -59,6 +59,16 @@ public class User implements Serializable {
      * 更新人
      */
     private String updateUser;
+
+    /**
+     * 家庭住址
+     */
+    private String address;
+
+    /**
+     * 性别，male男，female女
+     */
+    private String sex;
 
 
 }

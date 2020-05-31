@@ -15,6 +15,9 @@ import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -46,7 +49,11 @@ public class SnowAutoGenerator {
 		throw new MybatisPlusException("请输入正确的" + tip + "！");
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
+		Properties pro = new Properties();
+		InputStream inputStream = SnowAutoGenerator.class.getClassLoader().getResourceAsStream("application.yml");
+		pro.load(inputStream);
+
 		/**
 		 * 代码生成器
 		 */
@@ -88,7 +95,7 @@ public class SnowAutoGenerator {
 				"&useSSL=false");
 		dataSourceConfig.setDriverName("com.mysql.jdbc.Driver");
 		dataSourceConfig.setUsername("root");
-		dataSourceConfig.setPassword("darryl1229");
+		dataSourceConfig.setPassword(pro.getProperty("password"));
 		mpg.setDataSource(dataSourceConfig);
 
 		/**

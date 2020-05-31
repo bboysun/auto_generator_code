@@ -29,13 +29,11 @@ public class UserController {
 	private UserService userService;
 
 	@PostMapping(value = "/queryPage")
-	public ResponseEntity<IPage<User>> queryPage(Integer currentPage, Integer pageSize) {
-		IPage<User> pageCondition = new Page<>();
-		// 当前页
-		pageCondition.setCurrent(currentPage);
-		// 每页条数
-		pageCondition.setSize(pageSize);
-		IPage<User> userPage = userService.page(pageCondition);
-		return new ResponseEntity<>(userPage, HttpStatus.OK);
+	ResponseEntity<IPage<User>> queryPage(Integer currentPage, Integer pageSize) {
+		IPage<User> page = new Page<>();
+		page.setCurrent(currentPage); //当前页
+		page.setSize(pageSize);    //每页条数
+		IPage<User> userIPage = userService.page(page);
+		return new ResponseEntity<>(userIPage, HttpStatus.OK);
 	}
 }

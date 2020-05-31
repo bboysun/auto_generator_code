@@ -5,10 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
+ * user Mapper 接口
  * @author darryl
  * @since 2020-05-30
  */
